@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  demo_oracle_xe:
+    image: gvenzl/oracle-xe:latest
+    environment:
+      ORACLE_PASSWORD: root
+      ORACLE_DATABASE: demo
+      TZ: Asia/Seoul
+    ports:
+      - "1521:1521"
+    restart: on-failure
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+      - ./db/config/oracle/:/container-init.d/
+
+volumes:
+  oracle_data:
