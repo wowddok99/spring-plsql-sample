@@ -1,34 +1,32 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
-
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.5.7' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
 }
 
 allprojects {
     group = 'com.example'
     version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '17'
 
     repositories {
         mavenCentral()
     }
 }
 
-// '루트 프로젝트'를 제외한 모든 '하위 모듈' (api, domain, common, main-runner)에 적용
 subprojects {
-    // 모든 하위 모듈은 Java와 Spring 의존성 관리를 사용
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
 
-    // Spring Boot의 BOM(Bill of Materials)을 가져와 의존성 버전을 관리
-    dependencyManagement {
-        imports {
-            // 이 설정 덕분에 하위 모듈에서 'spring-boot-starter-web'처럼 버전 없이 사용 가능
-            mavenBom SpringBootPlugin.BOM_COORDINATES
+    sourceCompatibility = '17'
+
+    repositories {
+            mavenCentral()
         }
-    }
+
+    dependencyManagement {
+            imports {
+                mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.7"
+            }
+        }
 
     dependencies {
         compileOnly 'org.projectlombok:lombok'
